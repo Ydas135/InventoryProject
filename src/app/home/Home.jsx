@@ -1,6 +1,5 @@
-import { HomePage } from "../../features/home/pages/HomePage"
+import { HomePage } from "../../features/home/pages/HomePage";
+
 export function Home() {
-  return (
-    <HomePage />
-  )
+  return <HomePage />;
 }

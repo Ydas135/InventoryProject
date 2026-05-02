@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Claude Code
+CLAUDE.md
+.claude/
+.claude.json
+.claude.local.json
+**/CLAUDE.local.md

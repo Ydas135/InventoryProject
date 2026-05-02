@@ -1,1 +1,174 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Inter", "Segoe UI", system-ui, sans-serif;
+
+  --color-ink-50: #f7f7f8;
+  --color-ink-100: #ececef;
+  --color-ink-200: #d9d9de;
+  --color-ink-400: #8e8e93;
+  --color-ink-600: #48484a;
+  --color-ink-900: #1c1c1e;
+
+  --color-accent-500: #0a84ff;
+  --color-accent-600: #0066d6;
+  --color-success-500: #30d158;
+  --color-warn-500: #ff9f0a;
+  --color-danger-500: #ff453a;
+
+  /* Semantic tokens (light) */
+  --color-page-from: #fafafb;
+  --color-page-to: #f3f4f6;
+  --color-surface: #ffffff;
+  --color-surface-2: #fafafb;
+  --color-glass: rgba(255, 255, 255, 0.72);
+  --color-border-soft: rgba(17, 24, 39, 0.06);
+  --color-border-strong: rgba(17, 24, 39, 0.10);
+  --color-tint-soft: rgba(17, 24, 39, 0.04);
+  --color-tint-medium: rgba(17, 24, 39, 0.06);
+  --color-tint-strong: rgba(17, 24, 39, 0.10);
+}
+
+/* Dark mode token overrides — Tailwind utilities pick these up automatically */
+.dark {
+  --color-ink-50: #1c1c1e;
+  --color-ink-100: #2c2c2e;
+  --color-ink-200: #3a3a3c;
+  --color-ink-400: #98989d;
+  --color-ink-600: #c7c7cc;
+  --color-ink-900: #f5f5f7;
+
+  --color-page-from: #0b0b0d;
+  --color-page-to: #050507;
+  --color-surface: #1c1c1e;
+  --color-surface-2: #2c2c2e;
+  --color-glass: rgba(28, 28, 30, 0.72);
+  --color-border-soft: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-tint-soft: rgba(255, 255, 255, 0.05);
+  --color-tint-medium: rgba(255, 255, 255, 0.08);
+  --color-tint-strong: rgba(255, 255, 255, 0.12);
+}
+
+@layer base {
+  html,
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
+    background: linear-gradient(180deg, var(--color-page-from) 0%, var(--color-page-to) 100%);
+    color: var(--color-ink-900);
+    transition: background-color 0.4s var(--ease-spring), color 0.3s var(--ease-spring);
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ===== Apple-style spring easings ===== */
+:root {
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ===== Entrance animations ===== */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up { animation: fade-up 0.7s var(--ease-spring) both; }
+.animate-fade-in { animation: fade-in 0.6s var(--ease-spring) both; }
+.animate-scale-in { animation: scale-in 0.5s var(--ease-spring) both; }
+
+/* Stagger helpers */
+.stagger > * { animation: fade-up 0.7s var(--ease-spring) both; }
+.stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.stagger > *:nth-child(4) { animation-delay: 0.22s; }
+.stagger > *:nth-child(5) { animation-delay: 0.28s; }
+.stagger > *:nth-child(6) { animation-delay: 0.34s; }
+.stagger > *:nth-child(7) { animation-delay: 0.40s; }
+.stagger > *:nth-child(8) { animation-delay: 0.46s; }
+
+/* ===== Card lift on hover ===== */
+.card-lift {
+  transition: transform 0.5s var(--ease-spring),
+              box-shadow 0.5s var(--ease-spring),
+              background-color 0.3s var(--ease-spring);
+  will-change: transform;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.04),
+    0 12px 32px -8px rgba(17, 24, 39, 0.12);
+}
+.dark .card-lift:hover {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 18px 40px -8px rgba(0, 0, 0, 0.55);
+}
+
+/* Press feedback */
+.press { transition: transform 0.18s var(--ease-soft); }
+.press:active { transform: scale(0.97); }
+
+/* Glassy surface */
+.glass {
+  background: var(--color-glass);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--color-border-soft);
+  transition: background-color 0.3s var(--ease-spring),
+              border-color 0.3s var(--ease-spring);
+}
+
+/* Soft surface */
+.surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+  transition: background-color 0.3s var(--ease-spring),
+              border-color 0.3s var(--ease-spring),
+              box-shadow 0.3s var(--ease-spring);
+}
+.dark .surface {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* Tint utilities (replace bg-black/[*] uses) */
+.tint-soft { background-color: var(--color-tint-soft); }
+.tint-medium { background-color: var(--color-tint-medium); }
+.tint-strong { background-color: var(--color-tint-strong); }
+.border-soft { border-color: var(--color-border-soft); }
+.border-strong { border-color: var(--color-border-strong); }
+.hover-tint:hover { background-color: var(--color-tint-soft); }
+.hover-tint-medium:hover { background-color: var(--color-tint-medium); }
+
+/* Subtle scrollbar */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-tint-medium);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-tint-strong);
+  background-clip: content-box;
+}
