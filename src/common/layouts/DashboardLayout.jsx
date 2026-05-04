@@ -4,9 +4,9 @@ import { Sidebar } from '../components/sidebar/Sidebar'
 
 export function DashboardLayout() {
   return (
-    <div className='min-h-screen bg-slate-950'>
+    <div className='flex min-h-screen bg-slate-950'>
       <Sidebar />
-      <main>
+      <main className='flex-1 p-6'>
         <section>
             <Outlet />
         </section>

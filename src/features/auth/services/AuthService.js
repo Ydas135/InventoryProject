@@ -6,9 +6,15 @@ export const LoginServices = async ({ email, password }) => {
     password
   });
 
-  if (error) throw error;
+  if (error) {
+    console.error("SUPABASE LOGIN ERROR:", error);
+    throw error;
+  }
 
-  return data.session.access_token;
+  return {
+    token: data.session.access_token,
+    user: data.user
+  }
 };
 
 export const LogoutService = async () => {

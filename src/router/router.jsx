@@ -1,13 +1,20 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { Login } from "../app/auth/Login";
 import { ProtectedRoute } from "../features/auth/components/ProtectedRoute";
 import { DashboardLayout } from "../common/layouts/DashboardLayout";
 import { Inventory } from "../app/inventory/Inventory"
+import { PublicRoute } from "../features/auth/components/PublicRoute";
+import { Home } from "../app/home/Home";
 
 export const router = createBrowserRouter([
     {
-        path:"/login",
-        Component:Login,
+        element:<PublicRoute/>,
+        children:[
+            {
+                path:"/login",
+                Component:Login,
+            }
+        ]
     },
     {
         element: <ProtectedRoute />,
@@ -18,6 +25,10 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
+                        Component: Home,
+                    },
+                    {
+                        path: "inventory",
                         Component: Inventory,
                     }
                 ]

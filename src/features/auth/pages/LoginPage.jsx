@@ -13,44 +13,55 @@ export const LoginPage = () => {
         password: "",
     })
 
+    const [loading, setLoading] = useState(false)
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (loading) return;
+        setLoading(true);
+
         try {
-            await login(  { email: form.email, password: form.password })
+            await login(form)
+
             navigate("/")
-        }   catch{
-            alert("Username or password are incorrects")
+
+        }   catch (err) {
+            console.error("LOGIN ERROR:", err);
+            alert("Credenciales incorrectas");
+        }   finally {
+            setLoading(false)
         }
     }
 
   return (
-    <form 
-        className='min-h-screen flex justify-center items-center'
-        onSubmit={handleSubmit}
+    <form
+      onSubmit={handleSubmit}
+      className="min-h-screen flex justify-center items-center"
     >
-        <div className='flex flex-col justify-center items-center gap-6 h-105 p-4 w-fit'>
-            <h2>Login</h2>
-            <input 
-            type="text" 
-            className="w-2xs focus:outline-white/50 focus:outline-none px-4 border border-slate-700 rounded-lg" 
-            placeholder='username'
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <input 
-            type="password" 
-            className="w-2xs focus:outline-white/50 focus:outline-none px-4 border border-slate-700 rounded-lg" 
-            placeholder='password'
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
+      <div className="flex flex-col gap-4">
+        <h2>Login</h2>
 
-            <button 
-                type="submit" 
-                className='px-3 py-2 bg-slate-900 text-white  rounded-lg cursor-pointer'
-            >
-                Submit
-            </button>
-        </div> 
+        <input
+          type="email"
+          placeholder="email"
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
+        />
+
+        <input
+          type="password"
+          placeholder="password"
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+        />
+
+        <button disabled={loading}>
+          {loading ? "Entrando..." : "Login"}
+        </button>
+      </div>
     </form>
   )
 }
