@@ -1,16 +1,24 @@
-import React from 'react'
-import { Outlet } from 'react-router'
-import { Sidebar } from '../components/sidebar/Sidebar'
+import { useState } from "react";
+import { Sidebar } from "../components/sidebar/Sidebar";
+import { Outlet } from "react-router";
+import { Menu } from "lucide-react";
 
 export function DashboardLayout() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className='flex min-h-screen bg-slate-950'>
-      <Sidebar />
-      <main className='flex-1 p-6'>
-        <section>
-            <Outlet />
-        </section>
-      </main>
+    <div className="min-h-screen bg-slate-950 flex flex-col lg:flex-row">
+      <div className="lg:hidden flex items-center justify-between p-4 border-b border-white/10">
+        <button onClick={() => setOpen(true)}>
+          <Menu className="text-white" />
+        </button>
+
+        <h1 className="text-white font-semibold">Dashboard</h1>
+      </div>
+      <Sidebar open={open} setOpen={setOpen} />
+        <main className="flex-1 p-4 sm:p-6">
+          <Outlet />
+        </main>
     </div>
-  )
+  );
 }

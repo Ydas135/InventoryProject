@@ -5,6 +5,7 @@ import { DashboardLayout } from "../common/layouts/DashboardLayout";
 import { Inventory } from "../app/inventory/Inventory"
 import { PublicRoute } from "../features/auth/components/PublicRoute";
 import { Home } from "../app/home/Home";
+import { Product } from "../app/product/Product"
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
                     {
                         path: "inventory",
                         Component: Inventory,
+                    },
+                    {
+                        path: "products",
+                        Component: Product,
                     }
                 ]
             }
