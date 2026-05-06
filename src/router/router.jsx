@@ -6,6 +6,9 @@ import { Inventory } from "../app/inventory/Inventory"
 import { PublicRoute } from "../features/auth/components/PublicRoute";
 import { Home } from "../app/home/Home";
 import { Product } from "../app/product/Product"
+import { Report } from "../app/report/Report";
+import { Sale } from "../app/sale/Sale"
+
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +38,14 @@ export const router = createBrowserRouter([
                     {
                         path: "products",
                         Component: Product,
+                    },
+                    {
+                        path: "reports",
+                        Component: Report,
+                    },
+                    {
+                        path: "sales",
+                        Component: Sale,
                     }
                 ]
             }

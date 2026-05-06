@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getInventory } from "../services/getInventory";
+import { getInventory, createMovement, getMovements } from "../services/getInventory";
 
-export const useInventory = () => {
+export const useGetInventory = () => {
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [movements, setMovements] = useState([]);
 
   const fetchInventory = async () => {
     try {
@@ -16,12 +17,29 @@ export const useInventory = () => {
     }
   };
 
+  const fetchMovements = async () => {
+  const data = await getMovements();
+  setMovements(data);
+  };
+
+  const addMovement = async (movement) => {
+    await createMovement(movement);
+    console.log("movement inserted");
+    await fetchInventory();
+    await fetchMovements(); 
+  };
+
+
+
   useEffect(() => {
     fetchInventory();
+    fetchMovements();
   }, []);
 
   return {
     inventory,
     loading,
+    addMovement,
+    movements
   };
 };
