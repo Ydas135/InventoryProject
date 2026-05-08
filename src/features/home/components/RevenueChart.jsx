@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-export const RevenueChart = ({ sales }) => {
+export const RevenueChart = ({ sales = [] }) => {
   const grouped = {};
 
   sales.forEach((s) => {
@@ -14,6 +14,17 @@ export const RevenueChart = ({ sales }) => {
     date,
     total
   }));
+
+  if (!sales.length) {
+  return (
+    <div className="bg-slate-900 p-4 rounded-2xl">
+      <h3 className="mb-4 font-semibold">Ingresos por día</h3>
+      <p className="text-slate-400">
+        No hay ventas registradas
+      </p>
+    </div>
+  );
+  }
 
   return (
     <div className="bg-slate-900 p-4 rounded-2xl">

@@ -38,7 +38,7 @@ export const HomePage = () => {
       <DashboardStats sales={filteredSales} />
 
       <div className="flex gap-2">
-        {["7d", "30d", "all"].map((r) => (
+        {["7 dias", "30 dias", "Todo"].map((r) => (
           <button
             key={r}
             onClick={() => setRange(r)}

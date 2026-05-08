@@ -24,7 +24,7 @@ export const InventoryDrawer = ({ item, onClose, movements }) => {
             initial={{ x: 300 }}
             animate={{ x: 0 }}
             exit={{ x: 300 }}
-            className="w-full sm:w-96 bg-slate-900 p-6 overflow-y-auto"
+            className="w-[90%] sm:w-96 md:w-105 h-full ml-auto bg-slate-900 p-4 sm:p-6 overflow-y-auto rounded-l-2xl"
           >
             <h3 className="text-xl font-semibold mb-4">
               {item.products?.name}

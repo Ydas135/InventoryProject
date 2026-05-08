@@ -49,15 +49,6 @@ export const InventoryCard = ({ item, onAdd, onRemove, onSelect }) => {
             +
           </button>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onRemove();
-            }}
-            className="flex-1 bg-red-600 py-1 rounded text-sm"
-          >
-            -
-          </button>
         </div>
       </div>
     </motion.div>

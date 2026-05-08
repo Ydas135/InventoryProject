@@ -21,5 +21,7 @@ export const createSale = async ({ product_id, quantity, price }) => {
       reason: "Venta"
     });
 
-  if (movementError) throw movementError;
+  if (movementError) { 
+    console.log(movementError)
+  }
 };

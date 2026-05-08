@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useSales } from "../hooks/useSales";
 import { useGetProducts } from "../../products/hooks/useGetProducts";
+import { SalesHistory} from "../components/SalesHistory"
 
 export const SalesPage = () => {
-  const { addSale } = useSales();
+  const { addSale, sales } = useSales();
   const { products } = useGetProducts();
 
   const [productId, setProductId] = useState("");
@@ -12,15 +13,40 @@ export const SalesPage = () => {
   const selectedProduct = products.find(p => p.id === productId);
 
   const handleSale = async () => {
+
     if (!productId || !qty) return;
 
-    await addSale({
-      product_id: productId,
-      quantity: Number(qty),
-      price: selectedProduct.price
-    });
+    if (!selectedProduct) {
+      alert("Selecciona un producto válido");
+      return;
+    }
 
-    setQty(1);
+    const quantity = Number(qty);
+
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      alert("Ingresar una cantidad válida")
+      return;
+    }
+
+    try {
+      await addSale({
+        product_id: productId,
+        quantity,
+        price: selectedProduct.price
+      })
+
+      alert("Venta registrada correctamente");
+
+      setQty(1);
+    } catch (error) {
+      if(error.message.includes("Not enough stock")){
+        alert("Stock insuficiente");
+        return;
+      }
+
+      alert("Error al registrar venta")
+    }
+
   };
 
   return (
@@ -46,6 +72,8 @@ export const SalesPage = () => {
         value={qty}
         onChange={(e) => setQty(e.target.value)}
         className="p-2 bg-slate-800 rounded w-full"
+        min="1"
+        step="1"
       />
 
       {selectedProduct && (
@@ -61,6 +89,7 @@ export const SalesPage = () => {
         Registrar venta
       </button>
 
+      <SalesHistory sales={sales}/>
     </div>
   );
 };

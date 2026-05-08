@@ -116,21 +116,6 @@ export const Sidebar = ({ open, setOpen}) => {
               )}
             </NavLink>
 
-            <NavLink to="/reports" className={linkClass} onClick={() => setOpen(false)}>
-              {({ isActive }) => (
-                <>
-                  <span
-                    className={`
-                      absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 rounded-r bg-indigo-500 transition-all
-                      ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-50"}
-                    `}
-                  />
-                  <BarChart3 size={18} className="opacity-80 group-hover:opacity-100"/>
-                  <span>Reports</span>
-                </>
-              )}
-            </NavLink>
-
           </nav>
         </div>
         <div className="p-2 lg:p-4">

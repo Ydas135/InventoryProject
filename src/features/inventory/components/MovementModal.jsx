@@ -5,8 +5,13 @@ export const MovementModal = ({ open, onClose, onSubmit, type }) => {
   const [qty, setQty] = useState("");
   const [reason, setReason] = useState("");
 
+  const quantity = Number(qty);
+
   const handleSubmit = () => {
-    if (!qty) return;
+    if (!Number.isInteger(quantity) || quantity <= 0){
+      alert("Ingresar una cantidad válida");
+      return;
+    } 
 
     onSubmit({
       quantity: Number(qty),
@@ -47,6 +52,8 @@ export const MovementModal = ({ open, onClose, onSubmit, type }) => {
               value={qty}
               onChange={(e) => setQty(e.target.value)}
               className="w-full p-2 bg-slate-800 rounded"
+              min="1"
+              step="1"
             />
 
             <input

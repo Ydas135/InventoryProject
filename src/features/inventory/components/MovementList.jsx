@@ -1,13 +1,19 @@
 export const MovementsList = ({ movements }) => {
+
+  const filteredMovements = movements.filter(
+    (movement) => movement.type !== "out"
+  );
+
   return (
     <div className="bg-slate-900 p-4 rounded-xl">
+
       <h3 className="text-sm text-slate-400 mb-3">
         Historial de movimientos
       </h3>
 
       <div className="space-y-2 max-h-64 overflow-y-auto">
 
-        {movements.map((movement) => (
+        {filteredMovements.map((movement) => (
           <div
             key={movement.id}
             className="flex justify-between text-sm border-b border-white/5 pb-1"
@@ -15,7 +21,6 @@ export const MovementsList = ({ movements }) => {
             <div>
               <p className="text-white">
                 {movement.type === "in" && "Entrada"}
-                {movement.type === "out" && "Salida"}
                 {movement.type === "adjust" && "Ajuste"}
               </p>
 
@@ -29,13 +34,10 @@ export const MovementsList = ({ movements }) => {
                 className={`font-medium ${
                   movement.type === "in"
                     ? "text-green-400"
-                    : movement.type === "out"
-                    ? "text-red-400"
                     : "text-yellow-400"
                 }`}
               >
                 {movement.type === "in" && "+"}
-                {movement.type === "out" && "-"}
                 {movement.quantity}
               </p>
 
