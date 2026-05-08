@@ -7,6 +7,7 @@ import { PublicRoute } from "../features/auth/components/PublicRoute";
 import { Home } from "../app/home/Home";
 import { Product } from "../app/product/Product"
 import { Sale } from "../app/sale/Sale"
+import { NotFoundPage } from "../app/NotFound/NotFound";
 
 
 export const router = createBrowserRouter([
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
                     {
                         path: "sales",
                         Component: Sale,
+                    },
+                    {
+                        path: "*",
+                        Component: NotFoundPage,
                     }
                 ]
             }

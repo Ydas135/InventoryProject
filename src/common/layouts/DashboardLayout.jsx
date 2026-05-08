@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Sidebar } from "../components/sidebar/Sidebar";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { Menu } from "lucide-react";
 
 export function DashboardLayout() {
   const [open, setOpen] = useState(false);
+
+  const titles = {
+    "/": "Dashboard",
+    "/inventory": "Inventory",
+    "/products": "Products",
+    "/sales": "Sales",
+  }
+
+  const currentTitle = titles[location.pathname] || 'Not Found';
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col lg:flex-row">
@@ -13,7 +22,7 @@ export function DashboardLayout() {
           <Menu className="text-white" />
         </button>
 
-        <h1 className="text-white font-semibold">Dashboard</h1>
+        <h1 className="text-white font-semibold">{currentTitle}</h1>
       </div>
       <Sidebar open={open} setOpen={setOpen} />
         <main className="flex-1 p-4 sm:p-6">

@@ -1,9 +1,4 @@
-export const InventoryFilters = ({
-  search,
-  setSearch,
-  status,
-  setStatus
-}) => {
+export const InventoryFilters = ({ search, setSearch, status, setStatus }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-3">
 

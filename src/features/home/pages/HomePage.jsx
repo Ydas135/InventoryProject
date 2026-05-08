@@ -5,6 +5,7 @@ import { DashboardStats } from "../components/DashboardStats";
 import { RevenueChart } from "../components/RevenueChart";
 import { TopProducts } from "../components/TopProducts";
 import { RecentSales } from "../components/RecentSales";
+import { Label } from "recharts";
 
 export const HomePage = () => {
   const { sales, loading } = useSales();
@@ -16,11 +17,20 @@ export const HomePage = () => {
     return sales.filter((s) => {
       const date = new Date(s.created_at);
 
-      if (range === "7d") return now - date <= 7 * 24 * 60 * 60 * 1000;
-      if (range === "30d") return now - date <= 30 * 24 * 60 * 60 * 1000;
+      const diff = 
+        (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
+
+      if (range == "today") {
+        return diff <= 1;
+      }
+
+      if (range == "7d") {
+        return diff <= 7;
+      }
+
       return true;
-    });
-  }, [sales, range]);
+  })
+}, [sales, range])
 
   if (loading) {
     return (
@@ -38,15 +48,18 @@ export const HomePage = () => {
       <DashboardStats sales={filteredSales} />
 
       <div className="flex gap-2">
-        {["7 dias", "30 dias", "Todo"].map((r) => (
+        {[
+          { Label: "Hoy", value:"today"},
+          { Label: "7 dias", value:"30d"}
+        ].map((r) => (
           <button
-            key={r}
-            onClick={() => setRange(r)}
-            className={`px-3 py-1 rounded ${
-              range === r ? "bg-indigo-600" : "bg-slate-800"
+            key={r.value}
+            onClick={() => setRange(r.value)}
+            className={`px-3 py-1 rounded-lg transition ${
+              range === r.value ? "bg-indigo-600" : "bg-slate-800 hover:bg-slate-700"
             }`}
           >
-            {r}
+            {r.Label}
           </button>
         ))}
       </div>

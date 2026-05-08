@@ -30,7 +30,6 @@ export const getMovements = async () => {
   const { data, error } = await supabase
     .from("inventory_movements")
     .select("*")
-    .order("created_at", { ascending: false });
 
   if (error) throw error;
   return data;
