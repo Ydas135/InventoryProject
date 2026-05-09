@@ -73,10 +73,10 @@ export function Sidebar() {
       {/* Footer / user */}
       <div className="surface rounded-2xl p-3 flex items-center gap-3">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 grid place-items-center text-white text-[13px] font-semibold">
-          AC
+          AP
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-medium truncate">Alec Raftia</p>
+          <p className="text-[13px] font-medium truncate">Aleajandro Polar</p>
           <p className="text-[11px] text-ink-400 truncate">Administrador</p>
         </div>
         <button className="press p-1.5 rounded-lg hover-tint transition-colors">
