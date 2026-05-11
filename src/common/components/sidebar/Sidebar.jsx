@@ -1,4 +1,4 @@
-import { useAuth } from "../../../features/auth/hooks/UseAuth";
+import { useAuth } from "../../../features/auth/hooks/useAuth";
 import { useUser } from "../../../context/UserContext";
 import { LayoutDashboard, Boxes, Package, ShoppingCart, BarChart3, LogOut } from "lucide-react";
 import { NavLink } from "react-router";
