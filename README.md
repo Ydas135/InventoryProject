@@ -1,4 +1,4 @@
-# Inventory Management System
+# STOCKFLOW Inventory Management System
 
 > Modern inventory and sales management platform built with React 19, Vite, and Supabase. Multi-user dashboard with authentication, analytics, and real-time inventory control.
 
@@ -57,6 +57,7 @@
 3. **Configure environment variables**
 
    Create a `.env` file in the root directory:
+   You can use `.env.example` as a reference.
 
    ```env
    VITE_SUPABASE_URL=your_supabase_url
@@ -75,7 +76,7 @@
 
 ## Live Demo 
 
-  https://InventoryProject.vercel.app
+  https://stockflow-inventory-project.vercel.app
 
 ## Scripts
 
@@ -99,7 +100,7 @@ src/
 │   ├── home/         # Home/Dashboard components
 │   ├── inventory/    # Inventory management
 │   ├── product/      # Product management
-│   ├── sale/         # Sales management
+│   ├── sales/         # Sales management
 │   └── NotFound/     # 404 page
 ├── backend/          # Backend integration
 │   └── supabaseClient.js
@@ -211,6 +212,15 @@ const { data, error } = await supabase
   .from('products')
   .select('*')
 ```
+
+## Application Flow
+
+- User authentication handled with Supabase Auth
+- Protected routes managed with React Router
+- Global state management implemented using Zustand
+- CRUD operations connected to Supabase PostgreSQL
+- Database protection using Row Level Security (RLS)
+- Multi-user data isolation through Supabase Policies
 
 ## Future Improvements
 
