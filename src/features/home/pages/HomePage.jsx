@@ -14,8 +14,8 @@ export const HomePage = () => {
   const filteredSales = useMemo(() => {
     const now = new Date();
 
-    return sales.filter((s) => {
-      const date = new Date(s.created_at);
+    return sales.filter((sales) => {
+      const date = new Date(sales.created_at);
 
       const diff = 
         (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);

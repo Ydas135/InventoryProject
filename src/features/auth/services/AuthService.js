@@ -7,8 +7,7 @@ export const LoginServices = async ({ email, password }) => {
   });
 
   if (error) {
-    console.error("SUPABASE LOGIN ERROR:", error);
-    throw error;
+    throw new Error(error.message);
   }
 
   return {
@@ -18,5 +17,9 @@ export const LoginServices = async ({ email, password }) => {
 };
 
 export const LogoutService = async () => {
-  await supabase.auth.signOut();
-};
+  const { error } = await supabase.auth.signOut();
+
+  if (error){
+    throw new Error(error.message);
+  }
+}; 

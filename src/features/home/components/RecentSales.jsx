@@ -39,7 +39,7 @@ export const RecentSales = ({ sales }) => {
             </div>
             <div className="text-right">
               <p className="font-semibold text-green-400">
-                /S {Number(sale.total).toFixed(2)}
+                S/ {Number(sale.total).toFixed(2)}
               </p>
               <p className="text-xs text-slate-400">
                 {sale.quantity} unidades
