@@ -32,10 +32,10 @@
 
 ## Preview 
 
-![login](./public/logion.png)
+![login](./public/login.png)
 ![Dashboard](./public/dashboard.png)
 ![inventory](./public/inventory.png)
-![mobile](./public/dashboar-mobile.png)
+![mobile](./public/dashboard-mobile.png)
 
 ## Getting Started
 
