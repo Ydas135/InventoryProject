@@ -1,13 +1,14 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import {
   LayoutDashboard,
   Users,
   BarChart3,
   FileText,
   Package,
-  Settings,
+  LogOut,
 } from "lucide-react";
 import { ThemeSwitch } from "./ThemeSwitch";
+import { useAuth } from "../context/AuthContext";
 
 const navItems = [
   { to: "/", label: "Inicio", icon: LayoutDashboard, end: true },
@@ -17,6 +18,22 @@ const navItems = [
 ];
 
 export function Sidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const nombre = user?.nombre || "Usuario";
+  const iniciales = nombre
+    .split(" ")
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
+
   return (
     <aside className="w-64 shrink-0 h-screen sticky top-0 px-4 py-5 flex flex-col gap-6 border-r border-soft glass">
       {/* Brand */}
@@ -73,14 +90,19 @@ export function Sidebar() {
       {/* Footer / user */}
       <div className="surface rounded-2xl p-3 flex items-center gap-3">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 grid place-items-center text-white text-[13px] font-semibold">
-          AP
+          {iniciales}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-medium truncate">Aleajandro Polar</p>
+          <p className="text-[13px] font-medium truncate">{nombre}</p>
           <p className="text-[11px] text-ink-400 truncate">Administrador</p>
         </div>
-        <button className="press p-1.5 rounded-lg hover-tint transition-colors">
-          <Settings className="w-4 h-4 text-ink-400" />
+        <button
+          onClick={handleLogout}
+          aria-label="Cerrar sesión"
+          title="Cerrar sesión"
+          className="press p-1.5 rounded-lg hover-tint transition-colors text-ink-400 hover:text-danger-500"
+        >
+          <LogOut className="w-4 h-4" />
         </button>
       </div>
     </aside>
