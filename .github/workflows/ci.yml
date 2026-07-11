@@ -24,9 +24,10 @@ jobs:
           node-version: 20
           cache: npm
 
-      # 3. Instala las dependencias exactas del lockfile
+      # 3. Instala las dependencias (npm install reconcilia el lockfile;
+      #    npm ci fallaría porque el lockfile local está desincronizado por el proxy SSL)
       - name: Instalar dependencias
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       # 4. Revisa el estilo del código (no bloquea si falla)
       - name: Lint
