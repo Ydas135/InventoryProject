@@ -1,0 +1,45 @@
+name: CI
+
+# Se ejecuta en cada push y en cada pull request hacia main o Ale
+on:
+  push:
+    branches: [main, Ale]
+  pull_request:
+    branches: [main, Ale]
+
+jobs:
+  build:
+    name: Instalar, lint y compilar
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Descarga el código del repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Instala Node 20 con caché de npm (builds más rápidos)
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # 3. Instala las dependencias exactas del lockfile
+      - name: Instalar dependencias
+        run: npm ci --legacy-peer-deps
+
+      # 4. Revisa el estilo del código (no bloquea si falla)
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      # 5. Compila la app de producción a dist/
+      - name: Build
+        run: npm run build
+
+      # 6. Guarda el dist/ como artefacto descargable desde la pestaña Actions
+      - name: Subir dist como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
