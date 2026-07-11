@@ -1,8 +1,8 @@
-import { Navigate } from "react-router";
-import { Sun, Moon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { Sun, Moon, ShieldAlert } from "lucide-react";
 import { LoginAside } from "../components/LoginAside";
 import { LoginForm } from "../components/LoginForm";
-import { useAuth } from "../../../app/context/AuthContext";
 import { useTheme } from "../../../app/context/ThemeContext";
 
 function ThemeToggleMini() {
@@ -34,11 +34,43 @@ function ThemeToggleMini() {
   );
 }
 
-export function LoginPage() {
-  const { isAuthed } = useAuth();
+function AccesoDenegadoAlert({ ruta }) {
+  return (
+    <div
+      role="alert"
+      className="animate-fade-up mb-5 flex items-start gap-3 overflow-hidden rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3.5"
+    >
+      <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-amber-500/15 text-amber-600">
+        <ShieldAlert className="h-[18px] w-[18px]" strokeWidth={2.1} />
+      </span>
+      <div className="min-w-0">
+        <p className="text-[13.5px] font-semibold text-amber-700 dark:text-amber-400">
+          Acceso denegado
+        </p>
+        <p className="mt-0.5 text-[12.5px] leading-snug text-ink-600">
+          Necesitas iniciar sesión para acceder a{" "}
+          <code className="rounded bg-amber-500/15 px-1 py-px font-mono text-[11.5px] text-amber-700 dark:text-amber-400">
+            {ruta}
+          </code>
+          . Inicia sesión o regístrate para continuar.
+        </p>
+      </div>
+    </div>
+  );
+}
 
-  // Si ya hay sesión, no mostramos el login.
-  if (isAuthed) return <Navigate to="/" replace />;
+export function LoginPage() {
+  const location = useLocation();
+  // Capturamos la ruta UNA sola vez al montar — la alerta persiste durante
+  // esta visita pero al recargar `history.state` ya no la trae.
+  const [rutaIntentada] = useState(() => location.state?.from?.pathname || null);
+
+  useEffect(() => {
+    // Limpia el state guardado por el navegador para que un F5 no muestre la alerta.
+    if (location.state?.from) {
+      window.history.replaceState({}, "");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
@@ -54,6 +86,7 @@ export function LoginPage() {
             <ThemeToggleMini />
           </div>
           <div className="w-full max-w-sm">
+            {rutaIntentada && <AccesoDenegadoAlert ruta={rutaIntentada} />}
             <LoginForm />
           </div>
         </div>

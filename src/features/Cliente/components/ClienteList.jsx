@@ -1,9 +1,16 @@
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { Search, Users, Building2, User } from "lucide-react";
 import { clientes, historialPorCliente, calcularTotales } from "../../../data/mockData";
+
+const FILTROS = [
+  { v: "todos", label: "Todos", icon: Users },
+  { v: "Empresa", label: "Empresas", icon: Building2 },
+  { v: "Persona", label: "Personas", icon: User },
+];
 
 export function ClienteList({ selectedId, onSelect }) {
   const [q, setQ] = useState("");
+  const [tipo, setTipo] = useState("todos");
 
   const enriched = useMemo(
     () =>
@@ -18,11 +25,13 @@ export function ClienteList({ selectedId, onSelect }) {
     []
   );
 
-  const filtered = enriched.filter(
-    (c) =>
+  const filtered = enriched.filter((c) => {
+    const coincideTexto =
       c.nombre.toLowerCase().includes(q.toLowerCase()) ||
-      c.documento.toLowerCase().includes(q.toLowerCase())
-  );
+      c.documento.toLowerCase().includes(q.toLowerCase());
+    const coincideTipo = tipo === "todos" || c.tipo === tipo;
+    return coincideTexto && coincideTipo;
+  });
 
   return (
     <div className="surface rounded-2xl p-4 h-full flex flex-col">
@@ -34,6 +43,29 @@ export function ClienteList({ selectedId, onSelect }) {
           placeholder="Buscar cliente..."
           className="flex-1 bg-transparent outline-none text-[13px] placeholder:text-ink-400"
         />
+      </div>
+
+      {/* Filtro por tipo */}
+      <div className="mt-2 flex items-center p-0.5 rounded-xl tint-medium">
+        {FILTROS.map((f) => {
+          const active = tipo === f.v;
+          return (
+            <button
+              key={f.v}
+              onClick={() => setTipo(f.v)}
+              className={[
+                "press flex-1 flex items-center justify-center gap-1.5 h-8 rounded-[10px] text-[12px] font-medium",
+                "transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                active
+                  ? "bg-[var(--color-surface)] shadow-sm text-ink-900"
+                  : "text-ink-400 hover:text-ink-600",
+              ].join(" ")}
+            >
+              <f.icon className="w-3.5 h-3.5" strokeWidth={2.1} />
+              {f.label}
+            </button>
+          );
+        })}
       </div>
 
       <p className="mt-4 px-1 text-[11px] font-medium uppercase tracking-wider text-ink-400">

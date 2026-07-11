@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { documentosRecientes, formatearMoneda } from "../../../data/mockData";
 import { useMoneda } from "../../../app/context/MonedaContext";
 
@@ -14,14 +15,39 @@ const estadoColor = {
   Anulado: "bg-rose-500/10 text-rose-700",
 };
 
-export function RecentInvoices() {
+export function RecentInvoices({ q = "", desde = "", hasta = "" }) {
   const { moneda } = useMoneda();
+
+  const documentos = useMemo(() => {
+    const t = q.trim().toLowerCase();
+    return documentosRecientes.filter((d) => {
+      // fecha viene como "YYYY-MM-DD HH:mm" — comparamos solo la parte de fecha
+      const fecha = d.fecha.slice(0, 10);
+      if (desde && fecha < desde) return false;
+      if (hasta && fecha > hasta) return false;
+      if (
+        t &&
+        !d.cliente.toLowerCase().includes(t) &&
+        !d.id.toLowerCase().includes(t) &&
+        !d.tipo.toLowerCase().includes(t)
+      )
+        return false;
+      return true;
+    });
+  }, [q, desde, hasta]);
+
+  const hayFiltro = q || desde || hasta;
 
   return (
     <div className="card-lift surface rounded-2xl p-5">
       <div className="flex items-baseline justify-between">
         <h3 className="text-[15px] font-semibold tracking-tight">
           Documentos recientes
+          {hayFiltro && (
+            <span className="ml-2 text-[12px] font-medium text-ink-400">
+              · {documentos.length} de {documentosRecientes.length}
+            </span>
+          )}
         </h3>
         <button className="press text-[12px] font-medium text-accent-500 hover:text-accent-600 transition-colors">
           Ver todos
@@ -41,7 +67,7 @@ export function RecentInvoices() {
             </tr>
           </thead>
           <tbody className="stagger">
-            {documentosRecientes.map((d) => (
+            {documentos.map((d) => (
               <tr
                 key={d.id}
                 className="text-[13px] hover-tint transition-colors duration-200 cursor-pointer"
@@ -77,6 +103,14 @@ export function RecentInvoices() {
             ))}
           </tbody>
         </table>
+        {documentos.length === 0 && (
+          <div className="grid place-items-center py-10 text-center animate-fade-up">
+            <p className="text-[13px] font-medium">Sin ventas en este filtro</p>
+            <p className="mt-1 text-[12px] text-ink-400">
+              Ajusta el rango de fechas o el texto de búsqueda.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

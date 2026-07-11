@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Wallet,
   TrendingUp,
@@ -12,12 +13,18 @@ import { TopProductsList } from "../components/TopProductsList";
 import { RecentInvoices } from "../components/RecentInvoices";
 import { CategorySales } from "../components/CategorySales";
 import { StockAlert } from "../components/StockAlert";
+import { VentasFilterBar } from "../components/VentasFilterBar";
 import { useMoneda } from "../../../app/context/MonedaContext";
 import { metricasHome, formatearMoneda } from "../../../data/mockData";
 
 export function HomePage() {
   const { moneda } = useMoneda();
   const m = metricasHome;
+
+  // Filtros para "Documentos recientes" (búsqueda + rango de fechas)
+  const [q, setQ] = useState("");
+  const [desde, setDesde] = useState("");
+  const [hasta, setHasta] = useState("");
 
   return (
     <>
@@ -78,10 +85,22 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Filtro de ventas */}
+      <section className="mt-5 animate-fade-up" style={{ animationDelay: "0.5s" }}>
+        <VentasFilterBar
+          q={q}
+          setQ={setQ}
+          desde={desde}
+          setDesde={setDesde}
+          hasta={hasta}
+          setHasta={setHasta}
+        />
+      </section>
+
       {/* Bottom row */}
-      <section className="mt-5 grid grid-cols-1 xl:grid-cols-3 gap-4">
+      <section className="mt-3 grid grid-cols-1 xl:grid-cols-3 gap-4">
         <div className="xl:col-span-2 animate-fade-up" style={{ animationDelay: "0.55s" }}>
-          <RecentInvoices />
+          <RecentInvoices q={q} desde={desde} hasta={hasta} />
         </div>
         <div className="flex flex-col gap-4">
           <div className="animate-fade-up" style={{ animationDelay: "0.6s" }}>

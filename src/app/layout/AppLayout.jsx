@@ -1,13 +1,9 @@
-import { Outlet, Navigate } from "react-router";
+import { Outlet } from "react-router";
 import { Sidebar } from "./Sidebar";
-import { useAuth } from "../context/AuthContext";
 
+// El guard de autenticación lo aplica <RequireAuth> en el router,
+// así que aquí solo nos ocupamos del chrome (sidebar + outlet).
 export function AppLayout() {
-  const { isAuthed } = useAuth();
-
-  // Ruta protegida: sin sesión, al login.
-  if (!isAuthed) return <Navigate to="/login" replace />;
-
   return (
     <div className="min-h-screen flex">
       <Sidebar />

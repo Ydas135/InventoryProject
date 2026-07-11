@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { useAuth } from "../../../app/context/AuthContext";
 
 export function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Vuelve a la ruta que el usuario intentaba visitar (set por RequireAuth).
+  const destino = location.state?.from?.pathname || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +27,7 @@ export function LoginForm() {
     setLoading(true);
     try {
       await login({ email: email.trim(), remember });
-      navigate("/", { replace: true });
+      navigate(destino, { replace: true });
     } catch {
       setError("No pudimos iniciar sesión. Inténtalo de nuevo.");
       setLoading(false);
